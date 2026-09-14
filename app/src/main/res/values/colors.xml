@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="formatik_bg">#09121F</color>
+    <color name="formatik_surface">#172436</color>
+    <color name="formatik_blue">#3F7BF7</color>
+    <color name="formatik_text">#EAF2FF</color>
+</resources>

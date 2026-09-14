@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Necessario per il test LAN via http://192.168.x.x. In produzione usare HTTPS. -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
