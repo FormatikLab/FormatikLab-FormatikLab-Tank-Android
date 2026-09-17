@@ -1,4 +1,4 @@
-# FormatikLab Tank Android v0.1.0
+# FormatikLab Tank Android v0.1.1
 
 App Android leggera per FormatikLab Tank Server v0.3.0.
 
@@ -27,7 +27,7 @@ Puoi cambiarlo dall'icona ingranaggio dell'app.
 - Android Studio recente
 - Android SDK 35
 - JDK 17
-- Android 7.0 (API 24) o superiore sul telefono
+- Android 5.0 (API 21) o superiore sul telefono
 - FormatikLab Tank Server v0.3.0 con credenziali cliente configurate
 
 ## Compilazione APK debug
@@ -65,6 +65,6 @@ Il repository include `.github/workflows/build-apk.yml`.
 3. Seleziona **Build Android APK**.
 4. Premi **Run workflow** e poi **Run workflow**.
 5. Al termine apri il job completato e scarica l'artifact **FormatikLab-Tank-APK**.
-6. Dentro l'artifact trovi `FormatikLab-Tank-v0.1-debug.apk`, installabile direttamente su un dispositivo Android per i test.
+6. Dentro l'artifact trovi `FormatikLab-Tank-v0.1.1-debug.apk`, installabile direttamente su un dispositivo Android per i test.
 
 La build usa JDK 17, Gradle 8.9 e genera un APK debug.

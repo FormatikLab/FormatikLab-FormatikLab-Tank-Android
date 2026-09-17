@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.1.0
-- Prima versione Android.
-- WebView integrata con login cliente FormatikLab Tank Server v0.3.0.
-- Server configurabile.
-- Persistenza sessione tramite cookie.
-- Aggiorna, logout e pagina offline.
-- Supporto HTTP LAN per test e HTTPS per produzione.
+## v0.1.1
+- Compatibilità minima portata ad Android 5.0 (API 21).
+- Callback errori WebView resa compatibile con API 21.
+- User-Agent aggiornato a v0.1.1.
+- Workflow GitHub Actions aggiornato per produrre FormatikLab-Tank-v0.1.1-debug.apk.
+
+## v0.1.0
+- Prima versione Android di FormatikLab Tank.
