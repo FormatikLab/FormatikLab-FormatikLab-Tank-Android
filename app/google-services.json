@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "823481119322",
+    "project_id": "formatiklab-tank",
+    "storage_bucket": "formatiklab-tank.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823481119322:android:2980c5aabfb13fcb6ade63",
+        "android_client_info": {
+          "package_name": "lab.formatik.tank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ5AJqx-1YV9xB8bNp4YjPEna6hg10iGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
