@@ -8,6 +8,12 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
+import android.Manifest;
+import android.content.pm.PackageManager;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import android.view.Gravity;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -29,6 +35,7 @@ public class MainActivity extends Activity {
     private static final String PREFS = "formatiklab_tank";
     private static final String KEY_SERVER_URL = "server_url";
     private static final String DEFAULT_SERVER_URL = "http://192.168.68.99:8081";
+    private static final int REQ_NOTIFICATIONS = 1001;
 
     private WebView webView;
     private ProgressBar progressBar;
@@ -41,6 +48,8 @@ public class MainActivity extends Activity {
         prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
         buildUi();
         configureWebView();
+        requestNotificationPermission();
+        initFirebaseIfConfigured();
         loadPortal();
     }
 
@@ -113,7 +122,7 @@ public class MainActivity extends Activity {
         s.setBuiltInZoomControls(false);
         s.setDisplayZoomControls(false);
         s.setMediaPlaybackRequiresUserGesture(true);
-        s.setUserAgentString(s.getUserAgentString() + " FormatikLabTankAndroid/0.1.1");
+        s.setUserAgentString(s.getUserAgentString() + " FormatikLabTankAndroid/0.2.0");
 
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, false);
@@ -145,6 +154,7 @@ public class MainActivity extends Activity {
                 CookieManager.getInstance().flush();
                 if (url.contains("/dashboard")) {
                     titleView.setText("FormatikLab Tank • Dashboard");
+                    registerPushTokenWithServer();
                 } else if (url.contains("/login")) {
                     titleView.setText("FormatikLab Tank • Accesso");
                 } else {
@@ -160,6 +170,36 @@ public class MainActivity extends Activity {
                 }
             }
         });
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQ_NOTIFICATIONS);
+        }
+    }
+
+    private void initFirebaseIfConfigured() {
+        // Senza google-services.json l'app continua a funzionare come WebView, ma non attiva le push.
+        if (FirebaseApp.getApps(this).isEmpty()) return;
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful() || task.getResult() == null) return;
+            prefs.edit().putString(TankFirebaseMessagingService.KEY_FCM_TOKEN, task.getResult()).apply();
+            registerPushTokenWithServer();
+        });
+    }
+
+    private void registerPushTokenWithServer() {
+        String token=prefs.getString(TankFirebaseMessagingService.KEY_FCM_TOKEN, null);
+        if (token==null || token.length()<20 || webView==null) return;
+        String safe=token.replace("\\","\\\\").replace("'","\\'");
+        String js="fetch('/api/v1/push/register',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({token:'"+safe+"',platform:'android',device_name:'Android'})}).catch(()=>{});";
+        webView.evaluateJavascript(js,null);
+    }
+
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent); setIntent(intent);
+        String deviceId=intent.getStringExtra("device_id");
+        if(deviceId!=null && webView!=null) webView.loadUrl(getServerUrl()+"/dashboard?device="+Uri.encode(deviceId));
     }
 
     private void loadPortal() {

@@ -68,3 +68,9 @@ Il repository include `.github/workflows/build-apk.yml`.
 6. Dentro l'artifact trovi `FormatikLab-Tank-v0.1.1-debug.apk`, installabile direttamente su un dispositivo Android per i test.
 
 La build usa JDK 17, Gradle 8.9 e genera un APK debug.
+
+
+## v0.2.0 - Firebase Cloud Messaging
+Il progetto e predisposto per FCM. Copiare il file `google-services.json` del progetto Firebase in `app/google-services.json`: il plugin Google Services viene applicato automaticamente solo quando il file esiste. Senza quel file l'app continua a funzionare, ma le notifiche push restano disattivate.
+
+Questa versione usa minSdk 23 (Android 6.0) per allinearsi ai requisiti correnti di Firebase Cloud Messaging.
